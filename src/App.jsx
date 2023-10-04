@@ -1,8 +1,8 @@
 import { Routes, Route } from "@solidjs/router";
 import LandingPage from "./pages/landingPage";
 import Home from "./pages/Home";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
