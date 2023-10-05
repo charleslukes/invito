@@ -1,4 +1,4 @@
-const Card = () => {
+const Card = (props) => {
     return (
       <div class="rounded-sm border border-stroke bg-white py-6 px-8 shadow-default">
         <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
@@ -24,13 +24,13 @@ const Card = () => {
         <div class="mt-4 flex items-end justify-between">
           <div>
             <h4 class="text-title-md font-bold text-black ">
-              $3.456K
+              {props.title}
             </h4>
-            <span class="text-sm font-medium">Total views</span>
+            <span class="text-sm font-medium">{props.detail}</span>
           </div>
   
           <span class="flex items-center gap-1 text-sm font-medium text-meta-3">
-            0.43%
+            {props.percentage}
             <svg
               class="fill-meta-3"
               width="10"
