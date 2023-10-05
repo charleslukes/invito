@@ -1,14 +1,14 @@
-import { Outlet } from "@solidjs/router";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { createSignal } from "solid-js";
+import { createResource, createSignal, Show, For } from "solid-js";
 import Table from "../components/Table";
 import Card from "../components/Card";
+import { allUsers, getUser } from "../service";
 
 const DefaultLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = createSignal(true);
-
-  console.log(sidebarOpen);
+  const [sidebarOpen, setSidebarOpen] = createSignal(false);
+  const [data] = createResource(allUsers);
+  const [user] = createResource(() => "sparks", getUser);
 
   return (
     <div class="dark:bg-boxdark-2 dark:text-bodydark">
@@ -27,14 +27,19 @@ const DefaultLayout = () => {
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
+                <Show when={!user.loading} fallback={<Card detail="no user" />}>
+                  <For each={user()}>
+                    {(userCard) => (
+                      <Card title={userCard.title} detail={userCard.detail} />
+                    )}
+                  </For>
+                </Show>
               </div>
               <div className="col-span-12 xl:col-span-8 mt-4 md:mt-6">
-                <Table />
+                <Show when={!data.loading} fallback={<h1>No Users</h1>}>
+                  <Table table={data()}/>
+                </Show>
               </div>
             </div>
           </main>
