@@ -3,7 +3,7 @@ import { For } from "solid-js";
 const Table = (props) => {
   return (
     <div class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 class="mb-6 text-xl font-semibold text-black">Users</h4>
+      <h4 class="mb-6 text-xl font-semibold text-black">All Users</h4>
 
       <div class="flex flex-col">
         <div class="grid grid-cols-3 rounded-sm bg-gray-100 sm:grid-cols-4">
