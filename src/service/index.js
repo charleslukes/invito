@@ -1,3 +1,5 @@
+import { jsonParser } from "../util";
+
 const base_url = "http://localhost:3000/api";
 
 export const register = async (body) => {
@@ -61,5 +63,27 @@ export const allUsers = async () => {
     return data.users ?? [];
   } catch (error) {
     console.log("error ==>", error);
+  }
+};
+
+export const getUserDataEventApi = async (callback) => {
+  try {
+    const res = await fetch(`${base_url}/user-events`);
+    const reader = res.body.getReader();
+    reader.read().then(function pump({ done, value }) {
+      let event_res = new TextDecoder().decode(value);
+      const data = event_res.split("data:");
+      let result = data[1];
+      if (result) {
+        const dataToJson = jsonParser(result);
+        callback(dataToJson);
+      }
+      if (done) {
+        return;
+      }
+      return reader.read().then(pump);
+    });
+  } catch (error) {
+    console.error(err);
   }
 };
