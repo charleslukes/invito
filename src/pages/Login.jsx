@@ -24,7 +24,7 @@ function Login() {
 
       setTimeout(() => {
         setLoginApiResp(null);
-      }, 3000);
+      }, 1000);
     }
   };
 
