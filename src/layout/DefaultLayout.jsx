@@ -12,10 +12,10 @@ import Card from "../components/Card";
 import { allUsers, getUser, getUserDataEventApi } from "../service";
 import { isObjEmpty } from "../util";
 
-const DefaultLayout = () => {
+const DefaultLayout = (props) => {
   const [sidebarOpen, setSidebarOpen] = createSignal(false);
   const [data, { mutate }] = createResource(allUsers);
-  const [user, { refetch }] = createResource(() => "sparks", getUser);
+  const [user, { refetch }] = createResource(() => props.username, getUser);
   const [userDataEvent, setUserDataEvent] = createSignal({});
 
   // listen to events
@@ -25,7 +25,6 @@ const DefaultLayout = () => {
     const { event_data } = userDataEvent();
     if (event_data && !isObjEmpty(event_data)) {
       mutate((users) => [...users, event_data]);
-      // refetch to get user card
       refetch();
     }
   });
