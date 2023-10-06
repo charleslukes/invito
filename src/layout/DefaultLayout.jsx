@@ -1,14 +1,34 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { createResource, createSignal, Show, For } from "solid-js";
+import {
+  createResource,
+  createSignal,
+  createEffect,
+  Show,
+  For,
+} from "solid-js";
 import Table from "../components/Table";
 import Card from "../components/Card";
-import { allUsers, getUser } from "../service";
+import { allUsers, getUser, getUserDataEventApi } from "../service";
+import { isObjEmpty } from "../util";
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = createSignal(false);
-  const [data] = createResource(allUsers);
-  const [user] = createResource(() => "sparks", getUser);
+  const [data, { mutate }] = createResource(allUsers);
+  const [user, { refetch }] = createResource(() => "sparks", getUser);
+  const [userDataEvent, setUserDataEvent] = createSignal({});
+
+  // listen to events
+  getUserDataEventApi(setUserDataEvent);
+
+  createEffect(() => {
+    const { event_data } = userDataEvent();
+    if (event_data && !isObjEmpty(event_data)) {
+      mutate((users) => [...users, event_data]);
+      // refetch to get user card
+      refetch();
+    }
+  });
 
   return (
     <div class="dark:bg-boxdark-2 dark:text-bodydark">
@@ -38,7 +58,7 @@ const DefaultLayout = () => {
               </div>
               <div className="col-span-12 xl:col-span-8 mt-4 md:mt-6">
                 <Show when={!data.loading} fallback={<h1>No Users</h1>}>
-                  <Table table={data()}/>
+                  <Table table={data()} />
                 </Show>
               </div>
             </div>
