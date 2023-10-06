@@ -5,7 +5,7 @@ const Card = (props) => {
   
         <div class="mt-4 flex items-end justify-between">
           <div>
-            <h4 class="text-title-md font-bold text-black ">
+            <h4 class="text-xl font-bold text-black ">
               {props.title}
             </h4>
             <span class="text-sm font-medium">{props.detail}</span>
