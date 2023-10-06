@@ -5,7 +5,6 @@ import { loginUser } from "../service";
 import { Ok } from "../service/constants";
 import ErrorAlert from "../components/alert/ErrorAlert";
 
-
 function Login() {
   const navigate = useNavigate();
   const [loginApiResp, setLoginApiResp] = createSignal(null);
@@ -16,7 +15,7 @@ function Login() {
     const res = await loginUser(username);
     const { status, message } = await res.json();
     if (res.status === Ok) {
-      navigate("/home", { replace: true });
+      navigate("/home", { replace: true, state: { username } });
     } else {
       setLoginApiResp({
         title: status,
