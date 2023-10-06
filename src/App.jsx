@@ -3,6 +3,7 @@ import LandingPage from "./pages/landingPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Redirect from "./pages/Redirect";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/register" component={SignUp} />
         </Route>
         <Route path="/home" component={Home} />
+        <Route path="*" element={<Redirect />} />
       </Routes>
     </div>
   );
