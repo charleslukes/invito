@@ -87,8 +87,8 @@ const Sidebar = (props) => {
             <ul class="mb-6 flex flex-col gap-1.5">
               <li>
                 <A
-                  href="/dashboard"
-                  class={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-200 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                  href=""
+                  class={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray dark:hover:bg-meta-4 ${
                     pathname.includes("dashboard") &&
                     "bg-graydark dark:bg-meta-4"
                   }`}
