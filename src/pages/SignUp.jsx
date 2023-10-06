@@ -37,7 +37,7 @@ function SignUp() {
       setSignUpRes(SignUpEnum.success);
       setTimeout(() => {
         setSignUpRes(SignUpEnum.init);
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
       }, 2000);
     } else {
       setSignUpRes(SignUpEnum.error);
