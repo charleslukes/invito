@@ -17,6 +17,7 @@ const DefaultLayout = (props) => {
   const [data, { mutate }] = createResource(allUsers);
   const [user, { refetch }] = createResource(() => props.username, getUser);
   const [userDataEvent, setUserDataEvent] = createSignal({});
+  const [tableState, setTableState] = createSignal([]);
 
   // listen to events
   getUserDataEventApi(setUserDataEvent);
@@ -29,6 +30,29 @@ const DefaultLayout = (props) => {
     }
   });
 
+  createEffect(() => {
+    if (!data.loading) {
+      // populate table state
+      setTableState(data());
+    }
+  });
+
+  const searchInput = (e) => {
+    const value = e.target.value?.trim();
+    const tableData = data();
+    if (value) {
+      const filteredData = tableData.filter(
+        (tableValues) =>
+          tableValues.user_name.includes(value) ||
+          tableValues.email.includes(value) ||
+          tableValues.ref_code.includes(value)
+      );
+      setTableState(filteredData);
+    } else {
+      setTableState(tableData);
+    }
+  };
+
   return (
     <div class="dark:bg-boxdark-2 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
@@ -40,7 +64,11 @@ const DefaultLayout = (props) => {
         {/* <!-- ===== Content Area Start ===== --> */}
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Header
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            searchInput={searchInput}
+          />
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
@@ -57,7 +85,7 @@ const DefaultLayout = (props) => {
               </div>
               <div className="col-span-12 xl:col-span-8 mt-4 md:mt-6">
                 <Show when={!data.loading} fallback={<h1>No Users</h1>}>
-                  <Table table={data()} />
+                  <Table table={tableState()} />
                 </Show>
               </div>
             </div>
